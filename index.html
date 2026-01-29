@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Editor HTML — Foco na Edição</title>
+  <style>
+    :root {
+      --bg: #1e1e1e;
+      --fg: #e0e0e0;
+      --border: #444;
+      --header: #252526;
+      --btn: #007acc;
+      --btn-hover: #005f99;
+    }
+
+    * { margin:0; padding:0; box-sizing:border-box; }
+
+    body {
+      height: 100vh;
+      font-family: system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--fg);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      background: var(--header);
+      padding: 10px 16px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-shrink: 0;
+      z-index: 10;
+    }
+
+    h1 { font-size: 1.1rem; font-weight: 500; }
+
+    .btn {
+      padding: 8px 16px;
+      font-size: 0.95rem;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .btn-primary {
+      background: var(--btn);
+      color: white;
+    }
+    .btn-primary:hover { background: var(--btn-hover); }
+
+    .btn-secondary {
+      background: #444;
+      color: #ddd;
+    }
+    .btn-secondary:hover { background: #555; }
+
+    .main {
+      flex: 1;
+      display: flex;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .editor-full {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      transition: opacity 0.25s ease;
+    }
+
+    .editor-full.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .preview-pane {
+      flex: 1;
+      background: white;
+      display: none;
+      flex-direction: column;
+    }
+
+    .preview-pane.visible {
+      display: flex;
+    }
+
+    .preview-header {
+      background: #f0f0f0;
+      color: #333;
+      padding: 8px 16px;
+      font-size: 0.9rem;
+      border-bottom: 1px solid #ccc;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    textarea {
+      flex: 1;
+      background: var(--bg);
+      color: #d4d4d4;
+      font-family: 'Consolas', 'Monaco', monospace;
+      font-size: 15px;
+      padding: 16px;
+      border: none;
+      outline: none;
+      resize: none;
+      line-height: 1.5;
+    }
+
+    iframe {
+      flex: 1;
+      border: none;
+      width: 100%;
+      height: 100%;
+      background: white;
+    }
+
+    @media (min-width: 900px) {
+      .main.split {
+        flex-direction: row;
+      }
+      .editor-full {
+        width: 50%;
+      }
+      .preview-pane {
+        width: 50%;
+        border-left: 1px solid var(--border);
+      }
+    }
+
+    @media (max-width: 899px) {
+      .main.split {
+        flex-direction: column;
+      }
+      .editor-full {
+        height: 45%;
+      }
+      .preview-pane {
+        height: 55%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Editor HTML — Modo Foco</h1>
+  <div>
+    <button class="btn btn-primary" onclick="runCode()">Executar ▶</button>
+    <button class="btn btn-secondary" onclick="closePreview()" id="btn-close" style="display:none; margin-left:8px;">
+      Voltar à edição ✕
+    </button>
+  </div>
+</header>
+
+<div class="main" id="main">
+
+  <div class="editor-full" id="editorPane">
+    <textarea id="code" spellcheck="false"><!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Minha página</title>
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      background: #0f172a;
+      color: #e2e8f0;
+      min-height: 100vh;
+      margin: 0;
+      display: grid;
+      place-items: center;
+    }
+    .card {
+      background: #1e293b;
+      padding: 2.5rem;
+      border-radius: 16px;
+      box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+      max-width: 420px;
+      text-align: center;
+    }
+    h1 { color: #60a5fa; margin-bottom: 1rem; }
+    button {
+      margin-top: 1.5rem;
+      padding: 0.8rem 2rem;
+      background: #3b82f6;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      cursor: pointer;
+    }
+    button:hover { background: #2563eb; }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <h1>Editor com Foco Total</h1>
+    <p>Edite com calma, sem distrações.<br>Clique em "Executar" quando quiser ver o resultado.</p>
+    
+    <button onclick="alert('Tudo funcionando! 🎉')">Testar</button>
+  </div>
+
+</body>
+</html></textarea>
+  </div>
+
+  <div class="preview-pane" id="previewPane">
+    <div class="preview-header">
+      <span>Resultado da execução</span>
+      <button class="btn btn-secondary" onclick="closePreview()">Fechar ✕</button>
+    </div>
+    <iframe id="preview" sandbox="allow-scripts allow-forms allow-same-origin"></iframe>
+  </div>
+
+</div>
+
+<script>
+const codeEditor = document.getElementById('code');
+const previewFrame = document.getElementById('preview');
+const editorPane   = document.getElementById('editorPane');
+const previewPane  = document.getElementById('previewPane');
+const main         = document.getElementById('main');
+const btnClose     = document.getElementById('btn-close');
+
+function runCode() {
+  const code = codeEditor.value;
+  previewFrame.srcdoc = code;
+
+  // Ativa modo split
+  main.classList.add('split');
+  previewPane.classList.add('visible');
+  btnClose.style.display = 'inline-block';
+}
+
+function closePreview() {
+  main.classList.remove('split');
+  previewPane.classList.remove('visible');
+  btnClose.style.display = 'none';
+  // Opcional: limpar iframe para economizar memória
+  previewFrame.srcdoc = '';
+}
+
+// Suporte a Tab = 2 espaços
+codeEditor.addEventListener('keydown', e => {
+  if (e.key === 'Tab') {
+    e.preventDefault();
+    const start = codeEditor.selectionStart;
+    const end = codeEditor.selectionEnd;
+    codeEditor.value = codeEditor.value.substring(0, start) + "  " + codeEditor.value.substring(end);
+    codeEditor.selectionStart = codeEditor.selectionEnd = start + 2;
+  }
+});
+
+// Opcional: Ctrl/Cmd + Enter para executar
+codeEditor.addEventListener('keydown', e => {
+  if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+    e.preventDefault();
+    runCode();
+  }
+});
+</script>
+
+</body>
+</html>
