@@ -164,66 +164,13 @@
 <div class="main" id="main">
 
   <div class="editor-full" id="editorPane">
-    <textarea id="code" spellcheck="false"><!DOCTYPE html>
-<html lang="pt-br">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Minha página</title>
-  <style>
-    body {
-      font-family: system-ui, sans-serif;
-      background: #0f172a;
-      color: #e2e8f0;
-      min-height: 100vh;
-      margin: 0;
-      display: grid;
-      place-items: center;
-    }
-    .card {
-      background: #1e293b;
-      padding: 2.5rem;
-      border-radius: 16px;
-      box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
-      max-width: 420px;
-      text-align: center;
-    }
-    h1 { color: #60a5fa; margin-bottom: 1rem; }
-    button {
-      margin-top: 1.5rem;
-      padding: 0.8rem 2rem;
-      background: #3b82f6;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      font-size: 1.1rem;
-      cursor: pointer;
-    }
-    button:hover { background: #2563eb; }
-  </style>
-</head>
-<body>
+    <textarea id="code" spellcheck="false">
+      
+  
 
-  <div class="card">
-    <h1>Editor com Foco Total</h1>
-    <p>Edite com calma, sem distrações.<br>Clique em "Executar" quando quiser ver o resultado.</p>
+
+      
     
-    <button onclick="alert('Tudo funcionando! 🎉')">Testar</button>
-  </div>
-
-</body>
-</html> </textarea>
-  </div>
-
-  <div class="preview-pane" id="previewPane">
-    <div class="preview-header">
-      <span>Resultado da execução</span>
-      <button class="btn btn-secondary" onclick="closePreview()">Fechar ✕</button>
-    </div>
-    <iframe id="preview" sandbox="allow-scripts allow-forms allow-same-origin"></iframe>
-  </div>
-
-</div>
 
 <script>
 const codeEditor = document.getElementById('code');
